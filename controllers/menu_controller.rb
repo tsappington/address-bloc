@@ -9,13 +9,14 @@ class MenuController
   end
 
   def main_menu
-    puts "Main Menu - #{address_book.entries.count} entries"
-    puts "1 - View all entries"
+    puts "\nMain Menu - #{address_book.entries.count} entries"
+    puts "\n1 - View all entries"
     puts "2 - Create an entry"
-    puts "3 - Search from an entry"
-    puts "4 - Import entries from a CSV"
-    puts "5 - Exit"
-    print "Enter your selection: "
+    puts "3 - View an entry"
+    puts "4 - Search from an entry"
+    puts "5 - Import entries from a CSV"
+    puts "6 - Exit"
+    print "\nEnter your selection: "
 
     selection = gets.to_i
 
@@ -30,13 +31,17 @@ class MenuController
             main_menu
           when 3
             system "clear"
-            search_entries
+            view_entry
             main_menu
           when 4
             system "clear"
-            read_csv
+            search_entries
             main_menu
           when 5
+            system "clear"
+            read_csv
+            main_menu
+          when 6
             puts "Good-bye!"
             exit(0)
           else
@@ -60,7 +65,7 @@ class MenuController
       def create_entry
         system "clear"
         puts "New AddressBloc Entry"
-        print "Name: "
+        print "\nName: "
         name = gets.chomp
         print "Phone number: "
         phone = gets.chomp
@@ -80,7 +85,6 @@ class MenuController
       end
 
       def entry_submenu(entry)
-        # #16
         puts "n - next entry"
         puts "d - delete entry"
         puts "e - edit this entry"
@@ -102,5 +106,47 @@ class MenuController
         end
       end
 
+      def view_entry
+
+        system "clear"
+        puts "View an entry"
+        print "User #: "
+        user = gets.chomp
+        user = (user.to_i - 1) # add_entry starts with #0
+
+        result = ""
+        address_book.entries.each_with_index do |entry, index|
+          if user == index
+            result = entry
+            break
+          end
+        end
+
+        if result != ""
+          system "clear"
+          puts "User ##{user + 1}:"
+          puts result
+        else
+          system "clear"
+          puts "User ##{user + 1} does not exist!"
+          puts "\n1 - Try Again"
+          puts "2 - Return to main menu"
+          choice = gets.chomp
+
+          case choice
+            when "1"
+              view_entry
+            when "2"
+              system "clear"
+              main_menu
+          end
+        end
+
+        puts "\nHit enter to return to main menu"
+        gets.chomp
+        system "clear"
+        main_menu
+
+      end
 
 end
