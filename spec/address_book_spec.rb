@@ -83,6 +83,38 @@
        entry_five = book.entries[4]
        check_entry(entry_five, "Sussie", "555-555-2036", "sussie@blocmail.com")
      end
+
+# Wasn't working. CSV_2 was: Kona, Laika, Jake
+#    but the RSpec got's were Jake, Kona, Laika
+#    bewildering...then found this...
+# http://stackoverflow.com/questions/35233061/csv-file-appearing-backwards-and-rspec-failing
+# Weird
+
+     it "imports the correct number of entries" do
+       book.import_from_csv("entries_2.csv")
+       book_size = book.entries.size
+
+       expect(book_size).to eq 3
+     end
+
+     it "imports the 1st entry from 2nd CSV file" do
+       book.import_from_csv("entries_2.csv")
+       entry_one = book.entries[0]
+       check_entry(entry_one, "Jake", "555-555-2036", "jake@blocmail.com")
+     end
+
+     it "imports the 2nd entry from 2nd CSV file" do
+       book.import_from_csv("entries_2.csv")
+       entry_two = book.entries[1]
+       check_entry(entry_two, "Kona", "555-555-3660", "kona@blocmail.com")
+     end
+
+     it "imports the 3rd entry from 2nd CSV file" do
+       book.import_from_csv("entries_2.csv")
+       entry_three = book.entries[2]
+       check_entry(entry_three, "Laika", "555-555-4646", "laika@blocmail.com")
+     end
+
     end
 
  end
