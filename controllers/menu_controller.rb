@@ -14,7 +14,8 @@ class MenuController
     puts "2 - Create an entry"
     puts "3 - Search from an entry"
     puts "4 - Import entries from a CSV"
-    puts "5 - Exit"
+    puts "5 - Eradicate all entries from existence"
+    puts "6 - Exit"
     print "Enter your selection: "
 
     selection = gets.to_i
@@ -37,6 +38,10 @@ class MenuController
             read_csv
             main_menu
           when 5
+            system "clear"
+            delete_all
+            main_menu
+          when 6
             puts "Good-bye!"
             exit(0)
           else
@@ -182,6 +187,22 @@ class MenuController
             puts entry.to_s
             search_submenu(entry)
           end
+      end
+
+      def delete_all
+        user_count = address_book.entries.length
+        puts "*** ERADICATE ALL #{user_count} ENTRIES FROM EXISTENCE ***"
+        puts "\nThis is a serious step,\nwhich could damage the\nspace-time continuum."
+        print "\n\nARE YOU SURE?\n(Y = Eradicate / N = Return to Main Menu): "
+        selection = gets.chomp.downcase
+
+        if selection == "y"
+          address_book.entries.clear
+          puts "\n=> ALL #{user_count} USERS ERADICATED <="
+          main_menu
+        else
+          puts "\nERADICATION ABORTED!  Hooray!!"
+        end
 
       end
 
